@@ -15,20 +15,20 @@ jobs:
 
     - name: Install Arduino CLI
       run: |
-        mkdir -p ~/.arduino15/bin
-        curl -fsSL https://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Linux_64bit.tar.gz | tar -xz -C ~/.arduino15/bin
-        echo "$HOME/.arduino15/bin" >> $GITHUB_PATH
+        curl -fsSL https://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Linux_64bit.tar.gz | tar -xz
+        sudo mv arduino-cli /usr/local/bin
+        arduino-cli version
 
-    - name: Set Up Arduino CLI
+    - name: Set Up Arduino CLI & Install ESP32 Core
       run: |
-        ~/.arduino15/bin/arduino-cli config init
-        ~/.arduino15/bin/arduino-cli config set board_manager.additional_urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
-        ~/.arduino15/bin/arduino-cli core update-index
-        ~/.arduino15/bin/arduino-cli core install esp32:esp32
+        arduino-cli config init
+        arduino-cli config set board_manager.additional_urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+        arduino-cli core update-index
+        arduino-cli core install esp32:esp32
 
     - name: Compile Sketch
       run: |
-        ~/.arduino15/bin/arduino-cli compile --fqbn esp32:esp32:esp32dev .
+        arduino-cli compile --fqbn esp32:esp32:esp32dev .
 
     - name: Upload firmware (artifact)
       uses: actions/upload-artifact@v4
