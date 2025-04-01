@@ -22,6 +22,7 @@ jobs:
     - name: Set Up Arduino CLI
       run: |
         ~/.arduino15/bin/arduino-cli config init
+        ~/.arduino15/bin/arduino-cli config set board_manager.additional_urls https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
         ~/.arduino15/bin/arduino-cli core update-index
         ~/.arduino15/bin/arduino-cli core install esp32:esp32
 
