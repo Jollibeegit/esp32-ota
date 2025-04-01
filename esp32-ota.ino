@@ -1,4 +1,4 @@
-#define FIRMWARE_VERSION "1.0.9"
+#define FIRMWARE_VERSION "1.0.1"
 
 void setup() {
   Serial.begin(9600);
