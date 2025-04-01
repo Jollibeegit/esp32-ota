@@ -28,10 +28,10 @@ jobs:
 
     - name: Compile Sketch
       run: |
-        arduino-cli compile --fqbn esp32:esp32:esp32dev .
+        arduino-cli compile --fqbn esp32:esp32:esp32 .
 
     - name: Upload firmware (artifact)
       uses: actions/upload-artifact@v4
       with:
         name: firmware
-        path: ./build/esp32.esp32.esp32dev/esp32-ota.ino.bin
+        path: ./build/esp32.esp32.esp32/esp32-ota.ino.bin
