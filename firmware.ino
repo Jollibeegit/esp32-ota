@@ -2,7 +2,7 @@
 
 void setup() {
   Serial.begin(9600);
-  Serial.println("✅ ESP32 OTA 테스트용 펌웨어 실행됨!");
+  Serial.println("✅ ESP32 OTA 테스트용 펌웨어 실행됨!!!");
   Serial.print("📦 버전: ");
   Serial.println(FIRMWARE_VERSION);
 }
