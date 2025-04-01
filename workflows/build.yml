@@ -1,0 +1,39 @@
+name: Build ESP32 Firmware
+
+on:
+  push:
+    paths:
+      - '**.ino'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
+
+    - name: Install Arduino CLI
+      run: |
+        curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+        echo "$HOME/.arduino15/bin" >> $GITHUB_PATH
+
+    - name: Install ESP32 Board
+      run: |
+        arduino-cli core update-index
+        arduino-cli core install esp32:esp32
+
+    - name: Compile Sketch
+      run: |
+        arduino-cli compile --fqbn esp32:esp32:esp32dev firmware.ino
+
+    - name: Upload firmware (artifact)
+      uses: actions/upload-artifact@v3
+      with:
+        name: firmware
+        path: ./build/esp32.esp32.esp32dev/firmware.ino.bin
