@@ -13,19 +13,21 @@ jobs:
     - name: Checkout Code
       uses: actions/checkout@v3
 
-    - name: Install and Set Up Arduino CLI
+    - name: Install Arduino CLI
       run: |
-        curl -fsSL https://raw.githubusercontent.com/arduino/arduino-cli/master/install.sh | sh
+        mkdir -p ~/.arduino15/bin
+        curl -fsSL https://downloads.arduino.cc/arduino-cli/arduino-cli_latest_Linux_64bit.tar.gz | tar -xz -C ~/.arduino15/bin
         echo "$HOME/.arduino15/bin" >> $GITHUB_PATH
-        export PATH="$HOME/.arduino15/bin:$PATH"
-        arduino-cli config init
-        arduino-cli core update-index
-        arduino-cli core install esp32:esp32
+
+    - name: Set Up Arduino CLI
+      run: |
+        ~/.arduino15/bin/arduino-cli config init
+        ~/.arduino15/bin/arduino-cli core update-index
+        ~/.arduino15/bin/arduino-cli core install esp32:esp32
 
     - name: Compile Sketch
       run: |
-        export PATH="$HOME/.arduino15/bin:$PATH"
-        arduino-cli compile --fqbn esp32:esp32:esp32dev firmware.ino
+        ~/.arduino15/bin/arduino-cli compile --fqbn esp32:esp32:esp32dev firmware.ino
 
     - name: Upload firmware (artifact)
       uses: actions/upload-artifact@v4
